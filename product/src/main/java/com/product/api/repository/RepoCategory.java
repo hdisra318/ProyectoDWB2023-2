@@ -75,6 +75,10 @@ public interface RepoCategory extends JpaRepository<Category, Integer>{
 	@Transactional
 	@Query(value = "UPDATE category SET status = 0 WHERE category_id = :category_id", nativeQuery = true)
 	void deleteById(@Param("category_id") Integer category_id);
-
+	
+	
+	
+	
+	
 	
 }
