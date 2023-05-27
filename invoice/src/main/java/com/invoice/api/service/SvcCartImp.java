@@ -77,17 +77,15 @@ public class SvcCartImp implements SvcCart {
 
 		}
 
-		if (prodRepetido) {
+		if (prodRepetido && cartActual != null) {
 			
-			if (cart.getQuantity() > product_stock) {
+			if (cart.getQuantity() + cantidad > product_stock) {
 				throw new ApiException(HttpStatus.BAD_REQUEST, "invalid quantity");
 			}
 			
-			productCl.updateProductStock(cart.getGtin(), product_stock - cart.getQuantity());
 			cart.setStatus(1);
 			cartActual.setQuantity(cantidad+cart.getQuantity());
-			cart.setQuantity(cantidad+cart.getQuantity());
-			repo.updateQuantity((cantidad+cart.getQuantity()), cart.getRfc(), cart.getCart_id());
+			repo.updateQuantity(cartActual.getQuantity(), cart.getRfc(), cart.getCart_id());
 			return new ApiResponse("quantity updated");
 			
 		}
