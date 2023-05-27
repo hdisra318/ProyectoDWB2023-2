@@ -112,12 +112,11 @@ public class SvcInvoiceImp implements SvcInvoice {
 		factura.setSubtotal(subtotal);
 		factura.setTotal(total);
 		factura.setTaxes(taxes);
-		factura.setInvoice_id(idFactura++);
-		
-		
-		
+		//factura.setInvoice_id(idFactura++);
+
 		// Guardando factura en la base de datos
-		repo.save(factura);
+        repo.createInvoice(factura.getRfc(), factura.getSubtotal(), factura.getTaxes(), factura.getTotal(), factura.getCreated_at(), factura.getStatus());
+		//repo.save(factura);
 		
 		// Vaciando carrito
 		repoCart.clearCart(rfc);
