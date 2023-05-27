@@ -2,7 +2,6 @@ package com.invoice.api.service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,8 +38,6 @@ public class SvcInvoiceImp implements SvcInvoice {
 	
 	@Autowired
 	ProductClient productCl;
-
-	Integer idFactura = 0;
 
 	@Override
 	public List<Invoice> getInvoices(String rfc) {
@@ -106,7 +103,6 @@ public class SvcInvoiceImp implements SvcInvoice {
 			// Guardando articulo en la base de datos 
 			repoItem.save(item);
 			
-			System.out.println(item);
 			// Agregando articulo a la lista
 			listItem.add(item);
 			
