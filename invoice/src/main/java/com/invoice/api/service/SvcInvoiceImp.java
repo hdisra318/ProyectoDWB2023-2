@@ -39,6 +39,8 @@ public class SvcInvoiceImp implements SvcInvoice {
 	@Autowired
 	ProductClient productCl;
 
+	Integer idFactura = 0;
+
 	@Override
 	public List<Invoice> getInvoices(String rfc) {
 		return repo.findByRfcAndStatus(rfc, 1);
@@ -78,6 +80,7 @@ public class SvcInvoiceImp implements SvcInvoice {
 			item.setTotal(response.getBody().getPrice() * item.getQuantity());
 			item.setTaxes(.16 * item.getTotal());
 			item.setSubtotal(item.getTotal()- item.getTaxes());
+			item.setId_invoice(idFactura);
 			
 			listItem.add(item);
 			
@@ -109,13 +112,15 @@ public class SvcInvoiceImp implements SvcInvoice {
 		factura.setSubtotal(subtotal);
 		factura.setTotal(total);
 		factura.setTaxes(taxes);
+		factura.setInvoice_id(idFactura++);
 		
 		
-		// Vaciando carrito
-		repoCart.clearCart(rfc);
 		
 		// Guardando factura en la base de datos
 		repo.save(factura);
+		
+		// Vaciando carrito
+		repoCart.clearCart(rfc);
 		
 		
 		return new ApiResponse("invoice generated");

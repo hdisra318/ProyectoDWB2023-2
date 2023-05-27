@@ -62,7 +62,22 @@ public class SvcCartImp implements SvcCart {
 		 */
 		
 		// Si es el mismo producto
-		if (cart.getGtin() == response.getBody().getGtin()) {
+		boolean prodRepetido = false;
+		Integer cantidad = 0;
+		Cart cartActual = null;
+		List<Cart> carts = repo.findByRfcAndStatus(cart.getRfc(), 1);
+		for(Cart c : carts) {
+
+			if(c.getGtin().equals(cart.getGtin())){
+				prodRepetido = true;
+				cantidad = c.getQuantity();
+				cartActual = c;
+				break;
+			}
+
+		}
+
+		if (prodRepetido) {
 			
 			if (cart.getQuantity() > product_stock) {
 				throw new ApiException(HttpStatus.BAD_REQUEST, "invalid quantity");
@@ -70,6 +85,9 @@ public class SvcCartImp implements SvcCart {
 			
 			productCl.updateProductStock(cart.getGtin(), product_stock - cart.getQuantity());
 			cart.setStatus(1);
+			cartActual.setQuantity(cantidad+cart.getQuantity());
+			cart.setQuantity(cantidad+cart.getQuantity());
+			repo.updateQuantity((cantidad+cart.getQuantity()), cart.getRfc(), cart.getCart_id());
 			return new ApiResponse("quantity updated");
 			
 		}
