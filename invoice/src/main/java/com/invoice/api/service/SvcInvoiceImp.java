@@ -116,7 +116,6 @@ public class SvcInvoiceImp implements SvcInvoice {
 
 		}
 		
-		
 		// Generando datos de la factura
 		Double total = 0.0;
 		Double taxes = 0.0;
